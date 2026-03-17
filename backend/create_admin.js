@@ -5,10 +5,10 @@ async function createAdmin() {
     try {
         await db.initializeDB();
         
-        const name = "Admin User";
-        const email = "admin@example.com";
-        const password = "adminpassword123";
-        const phone = "1234567890";
+        const name = process.env.ADMIN_NAME || "Admin User";
+        const email = process.env.ADMIN_EMAIL || "admin@example.com";
+        const password = process.env.ADMIN_PASSWORD || "adminpassword123";
+        const phone = process.env.ADMIN_PHONE || "1234567890";
         
         // Check if admin already exists
         const [existing] = await db.pool.query('SELECT * FROM users WHERE email = ?', [email]);

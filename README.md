@@ -165,7 +165,7 @@ To test the admin features, you can manually run the setup script to bypass regi
 cd backend
 node create_admin.js
 ```
-* **Email:** `admin@example.com`
-* **Password:** `adminpassword123`
+* **Email:** Set in `.env`
+* **Password:** Set in `.env`
 
 Navigate to `http://localhost:5173/admin` to view the controls.
