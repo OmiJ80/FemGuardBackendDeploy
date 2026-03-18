@@ -45,7 +45,8 @@ const verifyPayment = async (req, res) => {
             // Upgrade user to Premium
             await paymentModel.upgradeUserToPremium(req.user.id);
 
-            res.redirect(`http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`);
+            const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+            res.redirect(`${frontendUrl}/dashboard?payment=success&reference=${razorpay_payment_id}`);
         } else {
             await paymentModel.updatePaymentStatus(razorpay_order_id, razorpay_payment_id, 'failed');
             res.status(400).json({ success: false, message: 'Payment verification failed' });
