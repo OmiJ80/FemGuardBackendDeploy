@@ -19,7 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/risk', require('./routes/riskRoutes'));
 app.use('/api/tracker', require('./routes/trackerRoutes'));
-app.use('/api/payment', require('./routes/paymentRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 
 // Default route

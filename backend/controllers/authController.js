@@ -32,8 +32,8 @@ const registerUser = async (req, res) => {
             email,
             phone,
             role: 'user',
-            is_premium: false,
-            token: generateToken(userId, 'user', false),
+            is_premium: true,
+            token: generateToken(userId, 'user', true),
         });
     } catch (error) {
         console.error(error);

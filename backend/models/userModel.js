@@ -6,8 +6,8 @@ const createUser = async (name, email, phone, password) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const [result] = await db.pool.query(
-        'INSERT INTO users (name, email, phone, password) VALUES (?, ?, ?, ?)',
-        [name, email, phone, hashedPassword]
+        'INSERT INTO users (name, email, phone, password, is_premium) VALUES (?, ?, ?, ?, ?)',
+        [name, email, phone, hashedPassword, 1]
     );
     return result.insertId;
 };
@@ -18,7 +18,7 @@ const getUserByEmail = async (email) => {
 };
 
 const getUserById = async (id) => {
-    const [rows] = await db.pool.query('SELECT id, name, email, phone, is_premium, role FROM users WHERE id = ?', [id]);
+    const [rows] = await db.pool.query('SELECT id, name, email, phone, 1 as is_premium, role FROM users WHERE id = ?', [id]);
     return rows[0];
 };
 

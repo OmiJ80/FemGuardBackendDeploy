@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
-import { useRazorpay } from '../api/useRazorpay';
 import { motion } from 'framer-motion';
-import { Activity, CalendarHeart, Sparkles, LogOut, ChevronRight, Target, Flame, HeartPulse, Lock } from 'lucide-react';
+import { Activity, CalendarHeart, Sparkles, LogOut, ChevronRight, Target, Flame, HeartPulse } from 'lucide-react';
 
 const CircularProgress = ({ score, maxScore, label, color, delay }) => {
     const percentage = (score / maxScore) * 100;
@@ -49,8 +48,6 @@ const Dashboard = () => {
     const [assessments, setAssessments] = useState([]);
     const [cycles, setCycles] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { handlePayment } = useRazorpay();
-    const isPremium = user?.is_premium;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -119,11 +116,6 @@ const Dashboard = () => {
                         <span className="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-bold tracking-wider text-slate-600 dark:text-slate-400 uppercase">
                             Health Dashboard
                         </span>
-                        {isPremium && (
-                            <span className="px-3 py-1 bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 text-yellow-600 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-700/50 rounded-full text-xs font-bold flex items-center gap-1">
-                                <Sparkles className="w-3 h-3" /> PRO Member
-                            </span>
-                        )}
                     </motion.div>
                     <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">
                         Welcome back, <span className="text-gradient hover:scale-105 inline-block transition-transform">{user?.name?.split(' ')[0]}</span> 👋
@@ -149,17 +141,6 @@ const Dashboard = () => {
                         </div>
                     )}
 
-                    {!isPremium && (
-                        <motion.button 
-                            whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                            onClick={() => handlePayment(user)}
-                            className="w-full md:w-auto bg-gradient-to-r from-slate-900 to-slate-800 dark:from-slate-100 dark:to-white text-white dark:text-slate-900 px-6 py-3 rounded-2xl shadow-lg border border-slate-700 dark:border-white/20 font-bold flex items-center justify-center gap-2 group relative overflow-hidden"
-                        >
-                            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></span>
-                            <Sparkles className="w-4 h-4 text-yellow-400" />
-                            Upgrade to Premium
-                        </motion.button>
-                    )}
                 </div>
             </div>
 
@@ -218,15 +199,9 @@ const Dashboard = () => {
                             </p>
                         </div>
 
-                        {isPremium ? (
-                            <Link to="/tracker" className="btn-secondary w-full text-center flex items-center justify-center gap-2 group relative z-10 border-secondary/20 hover:border-secondary transition-colors">
-                                Open Calendar <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                            </Link>
-                        ) : (
-                            <button onClick={() => handlePayment(user)} className="w-full text-center py-3 px-6 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 font-bold flex items-center justify-center gap-2 relative z-10 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
-                                <Lock className="w-4 h-4" /> Unlock with Premium
-                            </button>
-                        )}
+                        <Link to="/tracker" className="btn-secondary w-full text-center flex items-center justify-center gap-2 group relative z-10 border-secondary/20 hover:border-secondary transition-colors">
+                            Open Calendar <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </Link>
                     </div>
                 </motion.div>
 
