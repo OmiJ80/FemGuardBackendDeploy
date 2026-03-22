@@ -1,4 +1,15 @@
 {
+  "name": "pcos-fertility-app",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "install-backend": "cd backend && npm install"
+  },
   "dependencies": {
     "puppeteer": "^24.39.1"
   }

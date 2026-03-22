@@ -6,7 +6,12 @@ const { pool, initializeDB } = require('./config/db');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: ['https://fem-guard-backend-deploy-z9jo-beige.vercel.app', 'http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -24,11 +29,16 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-// Initialize DB then start server
-initializeDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server listening on port ${PORT}`);
+// Export app for serverless environments (Vercel)
+module.exports = app;
+
+// Only listen if this file is run directly (not as a serverless function)
+if (require.main === module) {
+    initializeDB().then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server listening on port ${PORT}`);
+        });
+    }).catch(err => {
+        console.error('Failed to start server due to DB initialization error:', err);
     });
-}).catch(err => {
-    console.error('Failed to start server due to DB initialization error:', err);
-});
+}
