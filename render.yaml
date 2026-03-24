@@ -35,7 +35,7 @@ envVarGroups:
   - name: pcos-secrets
     envVars:
       - key: DATABASE_URL
-        value: postgresql://neondb_owner:npg_9xuLP5dJytjp@ep-gentle-sky-a1ku18y9-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+        value: your_neon_db_url_here
       - key: JWT_SECRET
         generateValue: true
       - key: RAZORPAY_KEY_ID
