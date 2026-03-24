@@ -5,41 +5,41 @@ const createUser = async (name, email, phone, password) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const [result] = await db.pool.query(
-        'INSERT INTO users (name, email, phone, password, is_premium) VALUES (?, ?, ?, ?, ?)',
-        [name, email, phone, hashedPassword, 1]
+    const result = await db.query(
+        'INSERT INTO users (name, email, phone, password, is_premium) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+        [name, email, phone, hashedPassword, true]
     );
-    return result.insertId;
+    return result.rows[0].id;
 };
 
 const getUserByEmail = async (email) => {
-    const [rows] = await db.pool.query('SELECT * FROM users WHERE email = ?', [email]);
+    const { rows } = await db.query('SELECT * FROM users WHERE email = $1', [email]);
     return rows[0];
 };
 
 const getUserById = async (id) => {
-    const [rows] = await db.pool.query('SELECT id, name, email, phone, 1 as is_premium, role FROM users WHERE id = ?', [id]);
+    const { rows } = await db.query('SELECT id, name, email, phone, is_premium, role FROM users WHERE id = $1', [id]);
     return rows[0];
 };
 
 const saveResetToken = async (userId, tokenHash, expiry) => {
-    await db.pool.query(
-        'UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE id = ?',
+    await db.query(
+        'UPDATE users SET reset_token = $1, reset_token_expiry = $2 WHERE id = $3',
         [tokenHash, expiry, userId]
     );
 };
 
 const getUserByResetToken = async (tokenHash) => {
-    const [rows] = await db.pool.query(
-        'SELECT * FROM users WHERE reset_token = ? AND reset_token_expiry > NOW()',
+    const { rows } = await db.query(
+        'SELECT * FROM users WHERE reset_token = $1 AND reset_token_expiry > NOW()',
         [tokenHash]
     );
     return rows[0];
 };
 
 const updatePasswordAndClearToken = async (userId, hashedPassword) => {
-    await db.pool.query(
-        'UPDATE users SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE id = ?',
+    await db.query(
+        'UPDATE users SET password = $1, reset_token = NULL, reset_token_expiry = NULL WHERE id = $2',
         [hashedPassword, userId]
     );
 };

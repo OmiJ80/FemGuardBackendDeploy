@@ -1,13 +1,27 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const { pool, initializeDB } = require('./config/db');
 
 const app = express();
 
+// Security Middleware
+app.use(helmet()); // Sets various HTTP headers for security
+app.disable('x-powered-by'); // Hide Express info
+
+// Rate Limiting to prevent brute force
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per windowMs
+    message: { message: 'Too many requests from this IP, please try again after 15 minutes' }
+});
+app.use('/api/', limiter);
+
 // Middleware
 app.use(cors({
-    origin: ['https://fem-guard-backend-deploy-z9jo-beige.vercel.app', 'http://localhost:5173'],
+    origin: [process.env.FRONTEND_URL || 'http://localhost:5173', 'https://fem-guard-backend-deploy-z9jo-beige.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

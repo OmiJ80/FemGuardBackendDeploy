@@ -1,0 +1,50 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: pcos-backend
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: node server.js
+    rootDir: backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - fromGroup: pcos-secrets
+
+  # Frontend Static Site
+  - type: static
+    name: pcos-frontend
+    env: static
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    rootDir: frontend
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: pcos-backend
+          property: url
+
+envVarGroups:
+  - name: pcos-secrets
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://neondb_owner:npg_9xuLP5dJytjp@ep-gentle-sky-a1ku18y9-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+      - key: JWT_SECRET
+        generateValue: true
+      - key: RAZORPAY_KEY_ID
+        value: your_razorpay_key_id
+      - key: RAZORPAY_KEY_SECRET
+        value: your_razorpay_key_secret
+      - key: FIREBASE_SERVER_KEY
+        value: your_firebase_key
+      - key: EMAIL_USER
+        value: your_email_user
+      - key: EMAIL_PASS
+        value: your_email_pass
