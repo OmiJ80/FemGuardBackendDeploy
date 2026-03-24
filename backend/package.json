@@ -18,11 +18,12 @@
     "dotenv": "^17.3.1",
     "exceljs": "^4.4.0",
     "express": "^5.2.1",
+    "express-rate-limit": "^7.5.0",
     "firebase-admin": "^13.7.0",
     "firebase-functions": "^7.0.6",
+    "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.3",
     "nodemailer": "^8.0.2",
-    "pcos-fertility-app": "file:..",
     "pdfkit": "^0.17.2",
     "pg": "^8.11.3",
     "razorpay": "^2.9.6"
