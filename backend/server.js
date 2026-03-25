@@ -19,9 +19,14 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
+// Render साठी प्रॉक्सी ट्रस्ट ऑन केला
+app.set('trust proxy', 1); 
+
+// ... बाकी कोड
+
 // Middleware
 app.use(cors({
-    origin: [process.env.FRONTEND_URL || 'http://localhost:5173', 'https://fem-guard-backend-deploy-z9jo-beige.vercel.app'],
+    origin: [process.env.FRONTEND_URL || 'http://localhost:5173', 'fem-guard-backend-deploy-z9jo-beige.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
