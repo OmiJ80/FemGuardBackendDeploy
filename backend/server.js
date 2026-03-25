@@ -7,11 +7,14 @@ const { pool, initializeDB } = require('./config/db');
 
 const app = express();
 
-// Security Middleware
+// --- 1. Security Middleware ---
 app.use(helmet()); // Sets various HTTP headers for security
 app.disable('x-powered-by'); // Hide Express info
 
-// Rate Limiting to prevent brute force
+// Render/Vercel साठी प्रॉक्सी ट्रस्ट ऑन करणे आवश्यक आहे (Rate limiting साठी)
+app.set('trust proxy', 1);
+
+// --- 2. Rate Limiting ---
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // Limit each IP to 100 requests per windowMs
@@ -19,22 +22,23 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// Render साठी प्रॉक्सी ट्रस्ट ऑन केला
-app.set('trust proxy', 1); 
-
-// ... बाकी कोड
-
-// Middleware
+// --- 3. CORS Configuration ---
 app.use(cors({
-    origin: [process.env.FRONTEND_URL || 'http://localhost:5173', 'fem-guard-backend-deploy-z9jo-beige.vercel.app'],
+    origin: [
+        process.env.FRONTEND_URL || 'http://localhost:5173', 
+        'https://fem-guard-backend-deploy-z9jo-beige.vercel.app',
+        'https://fem-guard-deploy.vercel.app'
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
+
+// --- 4. Standard Middleware ---
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
+// --- 5. Routes ---
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/risk', require('./routes/riskRoutes'));
 app.use('/api/tracker', require('./routes/trackerRoutes'));
