@@ -30,20 +30,40 @@ router.get('/', async (req, res) => {
         };
     }
 
-    // 2. Check Email (Shallow check)
+    // 2. Check Email (Shallow + Live check)
     try {
         if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
             throw new Error('EMAIL_USER or EMAIL_PASS missing in .env');
         }
+
+        // Attempt a live verification with the SMTP server
+        const verifyPromise = new Promise((resolve, reject) => {
+            const transporter = require('../utils/emailService').transporter || require('nodemailer').createTransport({
+                service: 'gmail',
+                auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+            });
+            transporter.verify((error, success) => {
+                if (error) reject(error);
+                else resolve(success);
+            });
+        });
+
+        // Timeout verification after 5 seconds
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('SMTP Verification Timeout')), 5000));
+        
+        await Promise.race([verifyPromise, timeout]);
+
         healthCheck.services.email = {
-            status: 'CONFIGURED',
+            status: 'CONNECTED',
             user: process.env.EMAIL_USER
         };
     } catch (err) {
         healthCheck.status = 'DEGRADED';
         healthCheck.services.email = {
-            status: 'MISCONFIGURED',
-            error: err.message
+            status: 'FAILED',
+            error: err.message,
+            code: err.code,
+            hint: err.code === 'EAUTH' ? 'Check if EMAIL_PASS is a valid 16-character App Password and 2FA is enabled.' : 'Google might be blocking the connection from Render.'
         };
     }
 
