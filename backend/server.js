@@ -53,6 +53,7 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/risk', require('./routes/riskRoutes'));
 app.use('/api/tracker', require('./routes/trackerRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/health', require('./routes/healthRoutes'));
 
 // Default route
 app.get('/', (req, res) => {

@@ -97,11 +97,25 @@ const forgotPassword = async (req, res) => {
 
         console.log(`Sending reset link for ${email}: ${resetLink}`);
 
-        await sendPasswordResetEmail(user.email, resetLink);
+        try {
+            await sendPasswordResetEmail(user.email, resetLink);
+        } catch (emailErr) {
+            console.error('❌ Email sending failed. Error:', emailErr.message);
+            return res.status(500).json({ 
+                message: 'Failed to send reset email. Please contact support.',
+                error: process.env.NODE_ENV === 'development' ? emailErr.message : undefined 
+            });
+        }
 
         res.json({ message: 'If an account with that email exists, a reset link has been sent.' });
     } catch (error) {
-        console.error('Forgot password error detail:', error);
+        console.error('❌ Forgot password CRITICAL error:', error.message);
+        
+        // Provide hint for common database connection issues
+        if (error.code === 'ENOTFOUND' || error.message.includes('getaddrinfo')) {
+            console.error('💡 Hint: The backend cannot connect to the Database. Check your DATABASE_URL in .env.');
+        }
+
         res.status(500).json({ message: 'Server error while processing forgot password request.' });
     }
 };

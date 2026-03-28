@@ -23,14 +23,14 @@ const initializeDB = async () => {
     let client;
     try {
         client = await pool.connect();
-        console.log('Connected to PostgreSQL Database.');
+        console.log('✅ Connected to PostgreSQL Database.');
 
         // Read and execute schema
         const schemaPath = path.join(__dirname, '../database/schema.sql');
         if (fs.existsSync(schemaPath)) {
             const schema = fs.readFileSync(schemaPath, 'utf8');
             
-            console.log('Running database schema migrations...');
+            console.log('🔄 Running database schema migrations...');
             // Split schema by semicolon and execute each statement
             const statements = schema.split(';').map(s => s.trim()).filter(s => s.length > 0);
 
@@ -38,14 +38,18 @@ const initializeDB = async () => {
                 try {
                     await client.query(stmt);
                 } catch (stmtError) {
-                    console.error(`Error executing statement: ${stmt.substring(0, 50)}...`, stmtError.message);
+                    console.error(`❌ Error executing statement: ${stmt.substring(0, 50)}...`, stmtError.message);
                 }
             }
-            console.log('Database schema migrations complete.');
+            console.log('✨ Database schema migrations complete.');
         }
 
     } catch (error) {
-        console.error('Failed to initialize database schema:', error);
+        console.error('❌ Failed to initialize database connection/schema:', error.message);
+        if (error.code === 'ENOTFOUND' || error.message.includes('getaddrinfo')) {
+            console.error('💡 Hint: Your DATABASE_URL seems to be incorrect or unreachable.');
+        }
+        throw error; // Rethrow to stop server from starting (Server.js handles this)
     } finally {
         if (client) client.release();
     }
