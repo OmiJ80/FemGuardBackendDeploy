@@ -8,16 +8,17 @@ const { pool, initializeDB } = require('./config/db');
 const app = express();
 
 // --- 1. Security Middleware ---
-app.use(helmet()); // Sets various HTTP headers for security
-app.disable('x-powered-by'); // Hide Express info
+// Helmet सुरक्षा हेडर सेट करते
+app.use(helmet()); 
+app.disable('x-powered-by'); 
 
-// Render/Vercel साठी प्रॉक्सी ट्रस्ट ऑन करणे आवश्यक आहे (Rate limiting साठी)
+// Render/Vercel साठी प्रॉक्सी ट्रस्ट ऑन करणे (Rate limiting साठी आवश्यक)
 app.set('trust proxy', 1);
 
 // --- 2. Rate Limiting ---
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per windowMs
+    windowMs: 15 * 60 * 1000, // 15 मिनिटे
+    max: 100, // प्रत्येक IP साठी जास्तीत जास्त 100 रिक्वेस्ट
     message: { message: 'Too many requests from this IP, please try again after 15 minutes' }
 });
 app.use('/api/', limiter);
