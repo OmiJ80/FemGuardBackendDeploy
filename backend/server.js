@@ -7,35 +7,44 @@ const { pool, initializeDB } = require('./config/db');
 
 const app = express();
 
-// --- 1. Security Middleware ---
-// Helmet सुरक्षा हेडर सेट करते
-app.use(helmet()); 
-app.disable('x-powered-by'); 
-
-// Render/Vercel साठी प्रॉक्सी ट्रस्ट ऑन करणे (Rate limiting साठी आवश्यक)
-app.set('trust proxy', 1);
-
-// --- 2. Rate Limiting ---
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 मिनिटे
-    max: 100, // प्रत्येक IP साठी जास्तीत जास्त 100 रिक्वेस्ट
-    message: { message: 'Too many requests from this IP, please try again after 15 minutes' }
-});
-app.use('/api/', limiter);
-
-// --- 3. CORS Configuration ---
+// --- 1. CORS Configuration (सर्वात आधी ठेवा) ---
 app.use(cors({
-    origin: [
-        process.env.FRONTEND_URL || 'http://localhost:5173', 
-        'https://fem-guard-backend-deploy-z9jo-beige.vercel.app',
-        'https://fem-guard-deploy.vercel.app'
-    ],
+    origin: function (origin, callback) {
+        // सर्व origins ला परवानगी द्या किंवा ठराविक लिस्ट तपासा
+        const allowedOrigins = [
+            process.env.FRONTEND_URL,
+            'https://fem-guard-backend-deploy-z9jo-beige.vercel.app',
+            'https://fem-guard-deploy.vercel.app',
+            'http://localhost:5173'
+        ];
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            console.log("CORS Blocked for origin:", origin);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
 
-// --- 4. Standard Middleware ---
+// --- 2. Security Middleware ---
+app.use(helmet()); 
+app.disable('x-powered-by'); 
+
+// Render साठी प्रॉक्सी ट्रस्ट
+app.set('trust proxy', 1);
+
+// --- 3. Rate Limiting ---
+ const limiter = rateLimit({
+     windowMs: 15 * 60 * 1000, 
+     max: 100, 
+     message: { message: 'Too many requests from this IP, please try again after 15 minutes' }
+ });
+ app.use('/api/', limiter);
+ 
+ // --- 4. Standard Middleware ---
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
