@@ -44,7 +44,19 @@ const sendPasswordResetEmail = async (toEmail, resetLink) => {
         `,
     };
 
-    await transporter.sendMail(mailOptions);
+    try {
+        console.log(`Attempting to send reset email to: ${toEmail}`);
+        const info = await transporter.sendMail(mailOptions);
+        console.log(`Email sent successfully: ${info.messageId}`);
+    } catch (error) {
+        console.error('Nodemailer Error:', error.message);
+        if (error.code === 'EAUTH') {
+            console.error('Authentication Error: Check your EMAIL_USER and EMAIL_PASS (App Password required for Gmail).');
+        } else if (error.code === 'ESOCKET') {
+            console.error('Connection Error: Check if the SMTP port is blocked by your hosting provider.');
+        }
+        throw new Error('Failed to send reset email: ' + error.message);
+    }
 };
 
 module.exports = { sendPasswordResetEmail };

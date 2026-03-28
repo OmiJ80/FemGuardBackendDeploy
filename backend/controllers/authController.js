@@ -91,15 +91,18 @@ const forgotPassword = async (req, res) => {
 
         await userModel.saveResetToken(user.id, resetTokenHash, resetTokenExpiry);
 
-        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+        // Determine frontend URL dynamically (useful for multiple environments)
+        const frontendUrl = req.headers.origin || process.env.FRONTEND_URL || 'http://localhost:5173';
         const resetLink = `${frontendUrl}/reset-password/${resetToken}`;
+
+        console.log(`Sending reset link for ${email}: ${resetLink}`);
 
         await sendPasswordResetEmail(user.email, resetLink);
 
         res.json({ message: 'If an account with that email exists, a reset link has been sent.' });
     } catch (error) {
-        console.error('Forgot password error:', error);
-        res.status(500).json({ message: 'Server error. Please try again.' });
+        console.error('Forgot password error detail:', error);
+        res.status(500).json({ message: 'Server error while processing forgot password request.' });
     }
 };
 
