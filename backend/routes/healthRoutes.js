@@ -39,7 +39,9 @@ router.get('/', async (req, res) => {
         // Attempt a live verification with the SMTP server
         const verifyPromise = new Promise((resolve, reject) => {
             const transporter = require('../utils/emailService').transporter || require('nodemailer').createTransport({
-                service: 'gmail',
+                host: 'smtp-relay.sendinblue.com',
+                port: 587,
+                secure: false, // true for 465, false for 587
                 auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
             });
             transporter.verify((error, success) => {
@@ -48,8 +50,8 @@ router.get('/', async (req, res) => {
             });
         });
 
-        // Timeout verification after 5 seconds
-        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('SMTP Verification Timeout')), 5000));
+        // Timeout verification after 15 seconds
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('SMTP Verification Timeout')), 15000));
         
         await Promise.race([verifyPromise, timeout]);
 
