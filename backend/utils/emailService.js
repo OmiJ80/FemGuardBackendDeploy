@@ -1,16 +1,15 @@
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // Port 587 साठी false (STARTTLS)
+    service: 'gmail',
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
-    tls: {
-        rejectUnauthorized: false // काहीवेळा सर्टिफिकेशन एरर टाळण्यासाठी
-    }
+    // Adding pool: true can improve reliability when sending multiple emails
+    pool: true,
+    maxConnections: 5,
+    maxMessages: 10
 });
 
 const sendPasswordResetEmail = async (toEmail, resetLink) => {
