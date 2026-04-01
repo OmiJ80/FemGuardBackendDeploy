@@ -4,12 +4,12 @@ const db = require('./config/db');
 async function createAdmin() {
     try {
         await db.initializeDB();
-        
+
         const name = process.env.ADMIN_NAME || "Admin User";
         const email = process.env.ADMIN_EMAIL || "admin@example.com";
         const password = process.env.ADMIN_PASSWORD || "adminpassword123";
         const phone = process.env.ADMIN_PHONE || "1234567890";
-        
+
         // Check if admin already exists
         const { rows } = await db.pool.query('SELECT * FROM users WHERE email = $1', [email]);
         if (rows.length > 0) {
