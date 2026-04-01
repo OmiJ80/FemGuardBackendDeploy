@@ -1,7 +1,7 @@
 services:
   # Backend Web Service
   - type: web
-    name: femguard-backend
+    name: pcos-backend
     env: node
     plan: free
     region: oregon
@@ -28,7 +28,7 @@ services:
       - key: VITE_API_URL
         fromService:
           type: web
-          name: femguard-backend
+          name: pcos-backend
           property: url
 
 envVarGroups:

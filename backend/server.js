@@ -7,30 +7,41 @@ const { pool, initializeDB } = require('./config/db');
 
 const app = express();
 
-// --- 1. CORS Configuration (सर्वात आधी ठेवा) ---
+// --- 1. Security & CORS Configuration ---
+// Move CORS to the extreme top to ensure it handles all requests including preflights
+const allowedOrigins = [
+  'https://fem-guard-backend-deploy-z9jo-beige.vercel.app',
+  'https://fem-guard-deploy.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:5000',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-    origin: function (origin, callback) {
-        // सर्व origins ला परवानगी द्या किंवा ठराविक लिस्ट तपासा
-        const allowedOrigins = [
-            process.env.FRONTEND_URL,
-            'https://fem-guard-backend-deploy-z9jo-beige.vercel.app',
-            'https://fem-guard-deploy.vercel.app',
-            'http://localhost:5173'
-        ];
-        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            console.log("CORS Blocked for origin:", origin);
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    // Flexible match ignoring trailing slashes
+    const isAllowed = allowedOrigins.some(o => origin.replace(/\/$/, '') === o.replace(/\/$/, ''));
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      console.error(`CORS Blocked for: ${origin}`);
+      callback(new Error('CORS not allowed'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  optionsSuccessStatus: 200
 }));
 
+// Configure Helmet to allow cross-origin requests
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  crossOriginEmbedderPolicy: false
+})); 
+
 // --- 2. Security Middleware ---
-app.use(helmet()); 
 app.disable('x-powered-by'); 
 
 // Render साठी प्रॉक्सी ट्रस्ट

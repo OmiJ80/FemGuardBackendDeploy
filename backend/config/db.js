@@ -6,13 +6,7 @@ require('dotenv').config();
 // PostgreSQL connection configuration
 // Use DATABASE_URL if provided, else use individual components
 const poolConfig = process.env.DATABASE_URL 
-    ? { 
-        connectionString: process.env.DATABASE_URL,
-        ssl: { 
-            rejectUnauthorized: process.env.NODE_ENV === 'production' ? false : false, // In production, consider true if CA is provided
-            // For Neon, keeping false handles both pooler and direct connections
-        } 
-    }
+    ? { connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } }
     : {
         host: process.env.DB_HOST,
         user: process.env.DB_USER,
