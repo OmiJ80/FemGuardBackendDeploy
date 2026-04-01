@@ -5,8 +5,17 @@ require('dotenv').config();
 
 // PostgreSQL connection configuration
 // Use DATABASE_URL if provided, else use individual components
+// PostgreSQL connection configuration
+// Use DATABASE_URL if provided, else use individual components
 const poolConfig = process.env.DATABASE_URL 
-    ? { connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } }
+    ? { 
+        connectionString: process.env.DATABASE_URL,
+        ssl: { 
+            // This addresses the (node:93) Warning by being explicit 
+            // about SSL behavior in newer pg versions.
+            rejectUnauthorized: false 
+        } 
+    }
     : {
         host: process.env.DB_HOST,
         user: process.env.DB_USER,
