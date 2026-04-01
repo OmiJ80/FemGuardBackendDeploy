@@ -15,18 +15,18 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5000',
   process.env.FRONTEND_URL
-].filter(Boolean);
+].filter(Boolean).map(o => o.replace(/\/$/, ''));
 
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
-    // Flexible match ignoring trailing slashes
-    const isAllowed = allowedOrigins.some(o => origin.replace(/\/$/, '') === o.replace(/\/$/, ''));
-    if (isAllowed) {
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    if (allowedOrigins.includes(normalizedOrigin)) {
       callback(null, true);
     } else {
-      console.error(`CORS Blocked for: ${origin}`);
-      callback(new Error('CORS not allowed'));
+      console.warn(`CORS Blocked for: ${origin}`);
+      // Don't pass an error to the callback, just block it by passing false
+      callback(null, false);
     }
   },
   credentials: true,
