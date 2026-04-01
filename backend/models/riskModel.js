@@ -20,7 +20,19 @@ const getAssessmentsByUser = async (userId) => {
     return rows;
 };
 
+const getAssessmentById = async (id) => {
+    const { rows } = await db.query(
+        `SELECT a.*, u.name as user_name, u.email as user_email 
+         FROM assessments a 
+         JOIN users u ON a.user_id = u.id 
+         WHERE a.id = $1`, 
+        [id]
+    );
+    return rows[0];
+};
+
 module.exports = {
     saveAssessment,
-    getAssessmentsByUser
+    getAssessmentsByUser,
+    getAssessmentById
 };

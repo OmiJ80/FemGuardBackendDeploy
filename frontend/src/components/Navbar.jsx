@@ -46,9 +46,7 @@ const Navbar = () => {
                     {user ? (
                         <>
                             <Link to="/dashboard" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">Dashboard</Link>
-                            {user.role === 'admin' && (
-                                <Link to="/admin" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">Admin Area</Link>
-                            )}
+
                             <button onClick={handleLogout} className="text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-red-500 transition-colors ml-2">
                                 Sign Out
                             </button>

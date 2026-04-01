@@ -1,13 +1,13 @@
 const db = require('../config/db');
 const bcrypt = require('bcryptjs');
 
-const createUser = async (name, email, phone, password) => {
+const createUser = async (name, email, phone, password, role = 'user') => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const result = await db.query(
-        'INSERT INTO users (name, email, phone, password, is_premium) VALUES ($1, $2, $3, $4, $5) RETURNING id',
-        [name, email, phone, hashedPassword, true]
+        'INSERT INTO users (name, email, phone, password, role, is_premium) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+        [name, email, phone, hashedPassword, role, true]
     );
     return result.rows[0].id;
 };

@@ -36,10 +36,10 @@ const generatePDFReport = (user, assessment, res) => {
     };
 
     // PCOS Risk
-    drawModule('1. PCOS Risk Module', assessment.pcos_score, 16, assessment.pcos_category, assessment.pcos_ayurvedic);
+    drawModule('1. PCOS Risk Module', assessment.pcos_score, 17, assessment.pcos_category, assessment.pcos_ayurvedic);
 
     // Metabolic Risk
-    drawModule('2. Metabolic Syndrome Risk Module', assessment.metabolic_score, 20, assessment.metabolic_category, assessment.metabolic_ayurvedic);
+    drawModule('2. Metabolic Syndrome Risk Module', assessment.metabolic_score, 17, assessment.metabolic_category, assessment.metabolic_ayurvedic);
 
     // Infertility Risk
     drawModule('3. Infertility Risk Module', assessment.infertility_score, 18, assessment.infertility_category, assessment.infertility_ayurvedic);

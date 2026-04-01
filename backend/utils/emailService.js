@@ -1,20 +1,15 @@
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp-relay.sendinblue.com',
-    port: 587,
-    secure: false, // true for 465, false for 587
+    service: process.env.EMAIL_SERVICE || 'gmail',
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
-    // Brevo specific reliability settings
-    connectionTimeout: 15000, 
-    greetingTimeout: 15000,
-    socketTimeout: 15000,
-    pool: true,
-    maxConnections: 5,
-    maxMessages: 10
+    // Keep reliability settings for production environments
+    connectionTimeout: 10000, 
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
 });
 
 const sendPasswordResetEmail = async (toEmail, resetLink) => {

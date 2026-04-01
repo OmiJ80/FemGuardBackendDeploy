@@ -11,8 +11,8 @@ async function createAdmin() {
         const phone = process.env.ADMIN_PHONE || "1234567890";
         
         // Check if admin already exists
-        const [existing] = await db.pool.query('SELECT * FROM users WHERE email = ?', [email]);
-        if (existing.length > 0) {
+        const { rows } = await db.pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (rows.length > 0) {
             console.log("Admin user already exists. Login with credentials:");
             console.log(`Email: ${email}`);
             console.log(`Password: ${password}`);
@@ -23,7 +23,7 @@ async function createAdmin() {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         await db.pool.query(
-            'INSERT INTO users (name, email, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+            'INSERT INTO users (name, email, password, phone, role) VALUES ($1, $2, $3, $4, $5)',
             [name, email, hashedPassword, phone, 'admin']
         );
 

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     phone VARCHAR(20) NOT NULL,
     password VARCHAR(255) NOT NULL,
     is_premium BOOLEAN DEFAULT FALSE,
-    role VARCHAR(20) DEFAULT 'user' CHECK (role IN ('user', 'admin')),
+    role VARCHAR(20) DEFAULT 'user' CHECK (role IN ('user', 'admin', 'staff')),
     reset_token VARCHAR(255) DEFAULT NULL,
     reset_token_expiry TIMESTAMP DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

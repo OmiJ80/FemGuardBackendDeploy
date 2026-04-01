@@ -39,7 +39,30 @@ const getMyAssessments = async (req, res) => {
     }
 };
 
+const calculatePartial = async (req, res) => {
+    try {
+        const { answers, module } = req.body;
+        let result = {};
+
+        if (module === 'pcos') {
+            result = calculatePCOS(answers);
+        } else if (module === 'metabolic') {
+            result = calculateMetabolic(answers);
+        } else if (module === 'infertility') {
+            result = calculateInfertility(answers);
+        } else {
+            return res.status(400).json({ message: 'Invalid module type specified.' });
+        }
+
+        res.json(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error calculating partial risk', error: error.message });
+    }
+};
+
 module.exports = {
     submitAssessment,
-    getMyAssessments
+    getMyAssessments,
+    calculatePartial
 };

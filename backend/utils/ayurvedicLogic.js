@@ -6,39 +6,41 @@ const calculatePCOS = (answers) => {
     if (answers.menstrual_cycle === 'mild_irregularity') score += 1;
     if (answers.menstrual_cycle === 'oligomenorrhea_amenorrhea') score += 3;
     
-    // Hyperandrogenism Symptoms
-    if (answers.hyperandrogenism === 'mild_acne_hair') score += 1;
-    if (answers.hyperandrogenism === 'hirsutism_severe_acne') score += 2;
+    // Hyperandrogenism Symptoms (Acne / Hair Growth)
+    if (answers.hyperandrogenism === 'mild') score += 1;
+    if (answers.hyperandrogenism === 'severe') score += 2;
     
     // BMI
-    if (answers.bmi >= 23 && answers.bmi <= 24.9) score += 1;
-    if (answers.bmi >= 25) score += 2;
+    if (answers.bmi_category === '23-24.9') score += 1;
+    if (answers.bmi_category === '>=25') score += 2;
     
     // Waist Circumference
-    if (answers.waist_cm >= 80 && answers.waist_cm <= 88) score += 1;
-    if (answers.waist_cm > 88) score += 2;
+    if (answers.waist_category === '80-88') score += 1;
+    if (answers.waist_category === '>88') score += 2;
     
-    // Insulin Resistance (Acanthosis nigricans or elevated glucose)
+    // Insulin Resistance
     if (answers.insulin_resistance === 'present') score += 2;
     
     // Family History
     if (answers.family_history === 'present') score += 1;
     
-    // Ultrasound Findings
-    if (answers.ultrasound === 'polycystic') score += 4;
+    // Ultrasound Findings (Optional)
+    if (answers.ultrasound_available === 'yes' && answers.ultrasound_finding === 'polycystic') {
+        score += 5;
+    }
 
     let category = '';
     let ayurvedic = '';
 
     if (score <= 4) {
         category = 'Low Risk';
-        ayurvedic = 'Less Dosh Imbalance';
+        ayurvedic = 'Minimal Dosha Imbalance';
     } else if (score >= 5 && score <= 9) {
         category = 'Moderate Risk';
-        ayurvedic = 'Kapha-Medo Dushti';
+        ayurvedic = 'Kapha-Medo Dushti (Vitiation of Body Fat & Fluids)';
     } else {
         category = 'High Risk';
-        ayurvedic = 'Kapha-Vata Avarana Affecting Artava & Meda';
+        ayurvedic = 'Srotas Avarana (Obstruction in channels affecting Artava)';
     }
 
     return { score, category, ayurvedic };
@@ -49,30 +51,30 @@ const calculateMetabolic = (answers) => {
     let score = 0;
     
     // BMI
-    if (answers.bmi >= 23 && answers.bmi <= 24.9) score += 1;
-    if (answers.bmi >= 25) score += 2;
+    if (answers.bmi_category === '23-24.9') score += 1;
+    if (answers.bmi_category === '>=25') score += 2;
     
     // Waist Circumference
-    if (answers.waist_cm >= 80 && answers.waist_cm <= 88) score += 1;
-    if (answers.waist_cm > 88) score += 2;
+    if (answers.waist_category === '80-88') score += 1;
+    if (answers.waist_category === '>88') score += 2;
     
     // Blood Pressure
-    if (answers.bp === '120-129') score += 1;
-    if (answers.bp === '130+') score += 2;
+    if (answers.bp === 'elevated') score += 1;
+    if (answers.bp === 'high') score += 2;
     
     // Acanthosis Nigricans
     if (answers.acanthosis === 'mild') score += 1;
     if (answers.acanthosis === 'marked') score += 2;
     
     // Fasting Blood Glucose
-    if (answers.glucose >= 100 && answers.glucose <= 125) score += 2;
-    if (answers.glucose >= 126) score += 3;
+    if (answers.glucose === '100-125') score += 2;
+    if (answers.glucose === '>=126') score += 3;
     
     // Triglycerides
-    if (answers.triglycerides >= 150) score += 2;
+    if (answers.triglycerides === '>=150') score += 2;
     
     // HDL Cholesterol
-    if (answers.hdl < 50) score += 2;
+    if (answers.hdl === '<50') score += 2;
     
     // Physical Activity
     if (answers.activity === 'occasional') score += 1;
@@ -83,13 +85,13 @@ const calculateMetabolic = (answers) => {
 
     if (score <= 5) {
         category = 'Low Risk';
-        ayurvedic = 'Mild Kapha-Meda Dushti';
+        ayurvedic = 'Healthy Agni & Meda';
     } else if (score >= 6 && score <= 12) {
         category = 'Moderate Risk';
-        ayurvedic = 'Moderate Kapha-Meda Dushti';
+        ayurvedic = 'Meda Dhatu Dushti (Disturbed fat metabolism)';
     } else {
         category = 'High Risk';
-        ayurvedic = 'Kapha Dominance Affecting Meda + Rasa Dhatu, Probability of Premeha';
+        ayurvedic = 'Prameha Purvarupa (Pre-diabetic state in Ayurveda)';
     }
 
     return { score, category, ayurvedic };
@@ -100,46 +102,48 @@ const calculateInfertility = (answers) => {
     let score = 0;
     
     // Menstrual Cycle Regularity
-    if (answers.menstrual_cycle === 'mild_irregularity') score += 1;
-    if (answers.menstrual_cycle === 'oligomenorrhea_amenorrhea') score += 2;
+    if (answers.cycle_regularity === 'mild_irregular') score += 1;
+    if (answers.cycle_regularity === 'irregular') score += 2;
     
     // Duration of Attempt to Conceive
-    if (answers.trying_to_conceive === 'less_than_1_year') score += 1;
-    if (answers.trying_to_conceive === 'more_than_1_year') score += 3;
+    if (answers.trying_duration === 'less_than_1_year') score += 1;
+    if (answers.trying_duration === 'more_than_1_year') score += 3;
     
-    // Ovulatory Dysfunction
-    if (answers.ovulation === 'occasional_disturbance') score += 1;
-    if (answers.ovulation === 'chronic_anovulation') score += 2;
+    // Ovulation Status
+    if (answers.ovulation === 'disturbed') score += 1;
+    if (answers.ovulation === 'anovulation') score += 2;
     
-    // Hyperandrogenism Symptoms
-    if (answers.hyperandrogenism === 'mild_acne_hair') score += 1;
-    if (answers.hyperandrogenism === 'hirsutism_severe_acne') score += 2;
+    // Hyperandrogenism Symptoms (Acne / Hair Growth)
+    if (answers.hyperandrogenism === 'mild') score += 1;
+    if (answers.hyperandrogenism === 'severe') score += 2;
     
     // BMI
-    if (answers.bmi >= 23 && answers.bmi <= 24.9) score += 1;
-    if (answers.bmi >= 25) score += 2;
+    if (answers.bmi_category === '23-24.9') score += 1;
+    if (answers.bmi_category === '>=25') score += 2;
     
     // Insulin Resistance
     if (answers.insulin_resistance === 'present') score += 2;
     
-    // Ultrasound Findings
-    if (answers.ultrasound === 'polycystic') score += 3;
+    // Ultrasound Findings (Optional)
+    if (answers.ultrasound_available === 'yes' && answers.ultrasound_finding === 'polycystic') {
+        score += 3;
+    }
     
     // Age
-    if (answers.age >= 30 && answers.age <= 34) score += 1;
-    if (answers.age >= 35) score += 2;
+    if (answers.age_category === '30-34') score += 1;
+    if (answers.age_category === '>=35') score += 2;
 
     let category = '';
     let ayurvedic = '';
 
     if (score <= 4) {
-        category = 'Low Risk';
+        category = 'Low infertility risk';
         ayurvedic = 'Balanced Apana Vata';
     } else if (score >= 5 && score <= 9) {
-        category = 'Moderate Risk';
+        category = 'Moderate infertility risk';
         ayurvedic = 'Vata + Kapha';
     } else {
-        category = 'High Risk';
+        category = 'High infertility risk';
         ayurvedic = 'Apana Vata Avarana Affecting Artava, Beeja & Kshetra';
     }
 
