@@ -1,7 +1,7 @@
 services:
   # Backend Web Service
   - type: web
-    name: pcos-backend
+    name: femguardbackenddeploy
     env: node
     plan: free
     region: oregon
@@ -14,22 +14,6 @@ services:
       - key: PORT
         value: 5000
       - fromGroup: pcos-secrets
-
-  # Frontend Static Site
-  - type: static
-    name: pcos-frontend
-    env: static
-    plan: free
-    region: oregon
-    buildCommand: npm install && npm run build
-    publishPath: dist
-    rootDir: frontend
-    envVars:
-      - key: VITE_API_URL
-        fromService:
-          type: web
-          name: pcos-backend
-          property: url
 
 envVarGroups:
   - name: pcos-secrets
