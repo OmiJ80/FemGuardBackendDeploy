@@ -216,8 +216,13 @@ const RiskAssessment = () => {
             <div className="glass-panel p-6 md:p-10">
                 {/* Progress Tracking */}
                 <div className="mb-10 text-center">
-                    <h2 className="text-3xl font-black text-primary mb-2">FemGuard Risk Assessment</h2>
-                    <p className="text-gray-500">Step-by-step Ayurvedic & Metabolic analysis</p>
+                    <div className="inline-flex flex-col items-center mb-1 group cursor-default">
+                        <span className="text-sm font-bold text-slate-500/80 dark:text-slate-400/80 lowercase tracking-[0.2em] mb-1 transition-all group-hover:text-primary">dkpl's</span>
+                        <h2 className="text-5xl md:text-6xl font-black leading-none tracking-tighter uppercase italic bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent drop-shadow-sm group-hover:drop-shadow-md transition-all">
+                            FemGuard
+                        </h2>
+                    </div>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium mt-4">PCOS, Metabolic syndrome & Infertility Risk Assessment</p>
                     
                     <div className="mt-8 flex justify-between items-center max-w-md mx-auto relative px-4">
                         <div className="absolute top-1/2 left-0 w-full h-1 bg-gray-200 -translate-y-1/2 z-0"></div>

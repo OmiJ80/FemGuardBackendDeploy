@@ -22,13 +22,16 @@ const Navbar = () => {
             transition={{ duration: 0.5, type: 'spring' }}
             className="px-6 py-4 bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border-b border-white/50 dark:border-white/10 fixed w-full top-0 flex justify-between items-center z-50 transition-colors duration-300"
         >
-            <Link to="/" className="flex items-center gap-2 group">
-                <div className="p-2 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl shadow-glow group-hover:scale-105 transition-transform">
+            <Link to="/" className="flex items-center gap-3 group">
+                <div className="p-2 bg-gradient-to-br from-primary to-accent rounded-xl shadow-glow group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                     <ShieldPlus className="w-6 h-6 text-white" />
                 </div>
-                <span className="text-2xl font-black tracking-tight text-gradient">
-                    FemGuard
-                </span>
+                <div className="flex flex-col leading-none">
+                    <span className="text-[11px] font-bold text-slate-500/80 dark:text-slate-400/80 lowercase tracking-wider ml-0.5 group-hover:text-primary transition-colors duration-300">dkpl's</span>
+                    <span className="text-2xl font-black tracking-tighter uppercase italic bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent drop-shadow-sm group-hover:drop-shadow-md transition-all">
+                        FemGuard
+                    </span>
+                </div>
             </Link>
             
             <div className="flex gap-4 items-center">
