@@ -9,8 +9,8 @@ export default defineConfig({
             registerType: 'autoUpdate',
             includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
             manifest: {
-                name: 'PCOS & Fertility Tracker',
-                short_name: 'PCOS PWA',
+                name: 'FEMGUARD PWA',
+                short_name: 'FEMGUARD',
                 description: 'Early Risk Screening & Preventive Self-Care Tool for PCOS & Fertility',
                 theme_color: '#ffffff',
                 icons: [
