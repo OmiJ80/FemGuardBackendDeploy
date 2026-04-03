@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
-import { Mail, Lock, ShieldAlert, ArrowRight } from 'lucide-react';
+import { Mail, Lock, ShieldAlert, ArrowRight, Loader2 } from 'lucide-react';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -91,10 +91,19 @@ const Login = () => {
                         <button 
                             type="submit" 
                             disabled={isLoading}
-                            className={`btn-primary mt-4 w-full flex items-center justify-center gap-2 group ${isLoading ? 'opacity-70 cursor-wait' : ''}`}
+                            className={`btn-primary mt-4 w-full flex items-center justify-center gap-2 group ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
                         >
-                            {isLoading ? 'Signing In...' : 'Sign In'}
-                            {!isLoading && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                            {isLoading ? (
+                                <>
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                    <span>Signing In...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span>Sign In</span>
+                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </>
+                            )}
                         </button>
                     </form>
 

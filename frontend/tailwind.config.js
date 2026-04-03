@@ -9,22 +9,22 @@ export default {
         extend: {
             colors: {
                 primary: {
-                    DEFAULT: '#F43F5E', // Rose-500
-                    hover: '#E11D48',
-                    light: '#FFE4E6',
-                    dark: '#9F1239'
+                    DEFAULT: '#2563EB', // Blue-600 (from logo)
+                    hover: '#1D4ED8',
+                    light: '#DBEAFE',
+                    dark: '#1E3A8A'
                 },
                 secondary: {
-                    DEFAULT: '#3B82F6', // Blue-500
+                    DEFAULT: '#3B82F6', // Blue-500 (keeping original secondary as a different blue)
                     hover: '#2563EB',
                     light: '#DBEAFE',
                     dark: '#1E3A8A'
                 },
                 accent: {
-                    DEFAULT: '#8B5CF6', // Purple-500
-                    hover: '#7C3AED',
-                    light: '#EDE9FE',
-                    dark: '#4C1D95'
+                    DEFAULT: '#22C55E', // Green-500 (from logo)
+                    hover: '#16A34A',
+                    light: '#DCFCE7',
+                    dark: '#14532D'
                 },
                 surface: {
                     light: '#FFFFFF',

@@ -27,7 +27,7 @@ const drawHeader = (doc, title, userName, userEmail, date) => {
 };
 
 const drawFooter = (doc) => {
-    doc.fontSize(8).fillColor('#999999').text('Disclaimer: This report is generated using an automated assessment tool based on Ayurvedic and Medical symptoms. It is meant for informational purposes only and does NOT constitute a medical diagnosis. Please consult a qualified Ayurvedic physician or Gynecologist for a professional diagnosis and treatment plan.', { align: 'center' });
+    doc.fontSize(8).fillColor('#999999').text('Disclaimer: This report is generated using an automated assessment tool based on Ayurvedic and Medical symptoms. It is meant for informational purposes only and does NOT constitute a medical diagnosis. It is not a substitute for professional medical advice.', { align: 'center' });
 };
 
 const downloadUserReport = async (req, res) => {

@@ -67,7 +67,7 @@ const generatePDFReport = (user, assessment, res) => {
     doc.moveDown(2);
     
     // Footer / Disclaimer
-    doc.fontSize(10).fillColor('gray').text('Disclaimer: This FemGuard report is generated based on a structured digital questionnaire and Ayurvedic logic scoring. It is a screening tool, not a diagnostic instrument. It is not a substitute for professional medical advice, diagnosis, or treatment.', { align: 'justify' });
+    doc.fontSize(10).fillColor('gray').text('Disclaimer: This FemGuard report is generated based on a structured digital questionnaire and Ayurvedic logic scoring. It is a screening tool, not a diagnostic instrument. It is not a substitute for professional medical advice.', { align: 'justify' });
 
     doc.end();
 };
