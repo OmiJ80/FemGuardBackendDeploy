@@ -14,8 +14,8 @@ const drawSection = (doc, title, riskObj, color) => {
 };
 
 const drawHeader = (doc, title, userName, userEmail, date) => {
-    doc.fillColor('#446622').fontSize(24).text('FemGuard Ayurvedic Report', { align: 'center' });
-    doc.fontSize(10).fillColor('#666666').text(title, { align: 'center' }).moveDown(2);
+    doc.fillColor('#2563EB').fontSize(24).font('Helvetica-Bold').text('FemGuard Report', { align: 'center' });
+    doc.fontSize(10).fillColor('#666666').font('Helvetica').text(title, { align: 'center' }).moveDown(2);
     
     doc.moveTo(50, doc.y).lineTo(550, doc.y).strokeColor('#eeeeee').stroke().moveDown(1);
 
@@ -64,8 +64,8 @@ const downloadUserReport = async (req, res) => {
         drawSection(doc, 'INFERTILITY RISK', infertilityRisk, '#CC0033');
 
         doc.addPage();
-        doc.fillColor('#446622').fontSize(16).font('Helvetica-Bold').text('Ayurvedic Health Recommendations');
-        doc.moveTo(50, doc.y).lineTo(300, doc.y).strokeColor('#446622').stroke().moveDown(1);
+        doc.fillColor('#2563EB').fontSize(16).font('Helvetica-Bold').text('Ayurvedic Health Recommendations');
+        doc.moveTo(50, doc.y).lineTo(300, doc.y).strokeColor('#2563EB').stroke().moveDown(1);
         
         doc.fillColor('#333333').fontSize(11).font('Helvetica').text(recommendations, {
             align: 'justify',

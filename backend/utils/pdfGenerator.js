@@ -9,9 +9,9 @@ const generatePDFReport = (user, assessment, res) => {
     doc.pipe(res);
 
     // Header
-    doc.fontSize(22).fillColor('#D81B60').text('FemGuard Advanced Risk Assessment Report', { align: 'center' });
+    doc.fontSize(22).fillColor('#2563EB').font('Helvetica-Bold').text('FemGuard Report', { align: 'center' });
     doc.moveDown(0.5);
-    doc.fontSize(12).fillColor('gray').text('Early Identification of PCOS, Infertility Risk and Metabolic Syndrome', { align: 'center' });
+    doc.fontSize(12).fillColor('gray').font('Helvetica').text('Early Identification of PCOS, Infertility Risk and Metabolic Syndrome', { align: 'center' });
     doc.moveDown(2);
 
     // User Details
@@ -23,15 +23,15 @@ const generatePDFReport = (user, assessment, res) => {
 
     // Helper to draw module box
     const drawModule = (title, score, max, category, ayurvedic) => {
-        doc.fontSize(16).fillColor('#D81B60').text(title, { underline: true });
+        doc.fontSize(16).fillColor('#2563EB').font('Helvetica-Bold').text(title, { underline: true });
         doc.moveDown(0.5);
         
-        doc.fontSize(12).fillColor('black').text(`Risk Score: `, { continued: true }).text(`${score} / ${max}`, { bold: true });
+        doc.fontSize(12).fillColor('black').font('Helvetica').text(`Risk Score: `, { continued: true }).font('Helvetica-Bold').text(`${score} / ${max}`);
         
         let catColor = category.includes('Low') ? 'green' : category.includes('Moderate') ? 'orange' : 'red';
-        doc.text(`Category: `, { continued: true }).fillColor(catColor).text(category, { bold: true });
+        doc.font('Helvetica').text(`Category: `, { continued: true }).fillColor(catColor).font('Helvetica-Bold').text(category);
         
-        doc.fillColor('black').text(`Ayurvedic Interpretation: ${ayurvedic}`);
+        doc.fillColor('black').font('Helvetica').text(`Ayurvedic Interpretation: ${ayurvedic}`);
         doc.moveDown(1.5);
     };
 
@@ -46,7 +46,7 @@ const generatePDFReport = (user, assessment, res) => {
 
     // Premium Recommendations
     doc.addPage();
-    doc.fontSize(18).fillColor('#D81B60').text('Personalized Care & Recommendations', { underline: true });
+    doc.fontSize(18).fillColor('#2563EB').font('Helvetica-Bold').text('Ayurvedic Health Recommendations', { underline: true });
     doc.moveDown();
     
     doc.fontSize(12).fillColor('black');
