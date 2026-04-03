@@ -22,11 +22,11 @@ const Navbar = () => {
             className="px-6 py-4 bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border-b border-white/50 dark:border-white/10 fixed w-full top-0 flex justify-between items-center z-50 transition-colors duration-300"
         >
             <Link to="/" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 overflow-hidden rounded-lg shadow-glow group-hover:scale-110 transition-transform duration-300">
+                <div className="h-16 w-16 overflow-hidden rounded-xl bg-white/40 shadow-glow group-hover:scale-110 transition-transform duration-300">
                     <img 
-                        src="/womens_health_logo.png"  // तुमच्या लोगो फाईलचे नाव इथे टाका
+                        src="/womens_health_logo.png"
                         alt="Women's Health & Family Care Logo" 
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-contain p-0.5"
                     />
                 </div>
                 
