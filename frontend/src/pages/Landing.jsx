@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Activity, ShieldCheck, CalendarHeart, Sparkles } from 'lucide-react';
 
 const FeatureCard = ({ icon: Icon, title, desc, delay }) => (
-    <motion.div 
+    <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -24,15 +24,15 @@ const Landing = () => {
         <div className="flex flex-col min-h-[80vh] overflow-hidden">
             {/* Hero Section */}
             <section className="relative pt-24 pb-32 flex flex-col items-center justify-center text-center px-4 w-full">
-                
+
                 {/* Floating Elements Background */}
                 <div className="absolute inset-0 -z-10 overflow-hidden">
-                    <motion.div 
+                    <motion.div
                         animate={{ y: [0, -20, 0], opacity: [0.5, 0.8, 0.5] }}
                         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
                         className="absolute top-20 left-[10%] w-64 h-64 bg-accent/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[60px]"
                     />
-                    <motion.div 
+                    <motion.div
                         animate={{ y: [0, 30, 0], x: [0, -20, 0] }}
                         transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
                         className="absolute top-40 right-[15%] w-72 h-72 bg-primary/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[60px]"
@@ -46,31 +46,31 @@ const Landing = () => {
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 dark:bg-surface-dark/80 border border-slate-200 dark:border-slate-800 shadow-sm mb-8 backdrop-blur-md"
                 >
                     <Sparkles className="w-4 h-4 text-accent" />
-                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">The #1 Platform for Reproductive Core Health</span>
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">The #1 Platform for Reproductive Women Health</span>
                 </motion.div>
 
-                <motion.h1 
+                <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
                     className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 max-w-4xl"
                 >
-                    Take Control of Your <br/>
+                    Welcome To <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                        Fertility Journey.
+                        FEMGUARD Assesment
                     </span>
                 </motion.h1>
 
-                <motion.p 
+                <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mb-12 leading-relaxed"
                 >
-                    FemGuard combines modern clinical assessment algorithms with Ayurvedic insights to deliver a personalized, proactive approach to treating PCOS and managing fertility.
+                    FemGuard combines modern clinical assessment algorithms with Ayurvedic insights to deliver a personalized, proactive approach to asses PCOS, Metabolic Syndrome & Infertility.
                 </motion.p>
 
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.3 }}
@@ -87,25 +87,22 @@ const Landing = () => {
 
             {/* Features Grid */}
             <section className="py-24 px-4 max-w-7xl mx-auto w-full relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Everything you need. <span className="text-primary text-opacity-80">And more.</span></h2>
-                    <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">Stop guessing. Get clinical-grade insights wrapped in an elegant, easy-to-use interface.</p>
-                </div>
+
 
                 <div className="grid md:grid-cols-3 gap-8">
-                    <FeatureCard 
+                    <FeatureCard
                         icon={ShieldCheck}
                         title="3-Module Screening"
                         desc="Advanced algorithmic breakdown of your PCOS, Metabolic, and Infertility risk factors using FemGuard criteria."
                         delay={0.1}
                     />
-                    <FeatureCard 
+                    <FeatureCard
                         icon={CalendarHeart}
                         title="Smart Ovulation Tracking"
                         desc="Log cycles and precisely predict fertile windows using historical menstrual data and smart averages."
                         delay={0.2}
                     />
-                    <FeatureCard 
+                    <FeatureCard
                         icon={Activity}
                         title="Ayurvedic Analytics"
                         desc="Unique synthesis of modern medicine with traditional Ayurvedic dosha imbalances and tailored lifestyle plans."
@@ -113,7 +110,7 @@ const Landing = () => {
                     />
                 </div>
             </section>
-            
+
             {/* Simple Footer spacing block */}
             <div className="h-24"></div>
         </div>
