@@ -57,7 +57,7 @@ const Landing = () => {
                 >
                     Welcome To <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                        FEMGUARD Assesment
+                        FEMGUARD Assessment
                     </span>
                 </motion.h1>
 
